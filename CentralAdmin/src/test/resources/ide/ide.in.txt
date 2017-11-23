@@ -1,0 +1,40 @@
+package com.example.tests;
+
+import com.thoughtworks.selenium.*;
+import org.testng.annotations.*;
+import static org.testng.Assert.*;
+import java.util.regex.Pattern;
+
+public class java3 extends SeleneseTestNgHelper {
+	@Test public void testJava3() throws Exception {
+		selenium.open("/public-i/maps");
+		selenium.click("link=Admin");
+		selenium.waitForPageToLoad("30000");
+		selenium.type("id=email", "publiciadmin");
+		selenium.type("id=password", "publiciadmin-access");
+		selenium.click("css=button.btn.btn-primary");
+		selenium.waitForPageToLoad("30000");
+		assertEquals(selenium.getText("css=dd"), "Upload gexf files from Gephi");
+		assertEquals(selenium.getText("//dd[2]"), "Download Nodes and Edges for importing into Gephi");
+		assertEquals(selenium.getText("//dd[3]"), "Display the links between nodes by region");
+		assertEquals(selenium.getText("//dd[4]"), "Display and download all user information");
+		assertEquals(selenium.getText("//dd[5]"), "List all nodes input by each user");
+		selenium.click("css=span.caret");
+		selenium.click("link=Organisation Types");
+		selenium.waitForPageToLoad("30000");
+		assertEquals(selenium.getText("css=h3"), "Organisation Types");
+		assertEquals(selenium.getText("//table[@id='typeTable']/tbody/tr/td[2]"), "#2BFF00");
+		selenium.click("link=Edit");
+		selenium.waitForPageToLoad("30000");
+		selenium.type("id=color", "#FRED");
+		selenium.click("css=input.btn.btn-primary");
+		selenium.waitForPageToLoad("30000");
+		assertEquals(selenium.getText("//table[@id='typeTable']/tbody/tr/td[2]"), "#FRED");
+		selenium.click("link=Edit");
+		selenium.waitForPageToLoad("30000");
+		selenium.type("id=color", "#2BFF00");
+		selenium.click("css=input.btn.btn-primary");
+		selenium.waitForPageToLoad("30000");
+		assertEquals(selenium.getText("//table[@id='typeTable']/tbody/tr/td[2]"), "#2BFF00");
+	}
+}

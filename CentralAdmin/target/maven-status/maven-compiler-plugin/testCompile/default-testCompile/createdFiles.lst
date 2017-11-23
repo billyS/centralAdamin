@@ -1,0 +1,8 @@
+uk\co\F1x2Games\utils\SkillEntryRecord.class
+uk\co\F1x2Games\cucumber\common\DatabaseCleanSetupHook.class
+uk\co\F1x2Games\selenium\page\PageType.class
+uk\co\selenium\tools\CreateTestXml.class
+uk\co\F1x2\controller\BaseControllerTest.class
+uk\co\F1x2Games\utils\PropertiesFileReader.class
+uk\co\F1x2Games\selenium\main\CentralAdminTest.class
+uk\co\F1x2Games\utils\DatabaseUtilities.class

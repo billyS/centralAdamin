@@ -1,0 +1,60 @@
+package uk.co.F1x2Games.security;
+
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint;
+import org.springframework.stereotype.Component;
+
+/**
+ * Entry Point to handle session timeout in Ajax requests
+ * 
+ * If a session has expired and the request is a Ajax request (defined by convention - request has *ajax* in the url)
+ * then return a appropriate error code ( 408 Request Timeout )
+ * 
+ * This can then be handled in the relevant Javascript handler(s) as follows
+ * 
+ * error : function(data) { if (data.status == 408) { // display warning (if required) // display warning (if required)
+ * $('<selector>').html("Session expired. Please Close popup and log back in").fadeIn();
+ * 
+ * // or just redirect to / login window.location.reload(); // spring security will then redirect to /login } // handle
+ * other errors }
+ * 
+ * @author Billy.Sneddon
+ * 
+ */
+public class AjaxAwareAuthenticationEntryPoint extends LoginUrlAuthenticationEntryPoint {
+
+	private static final String AJAX_URL_PATH = "/ajax/";
+    private static final String TIMEOUT_MESSAGE = "Session Timeout";
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(AjaxAwareAuthenticationEntryPoint.class);
+
+    public AjaxAwareAuthenticationEntryPoint(String loginUrl) {
+        super(loginUrl);
+    }
+
+    @Override
+    public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException authException)
+            throws IOException, ServletException {
+
+    	
+    	boolean isAjax = "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"));
+    	boolean isAjax2 = request.getRequestURI().contains(AJAX_URL_PATH);
+    	String message = authException.getMessage();
+
+        if (isAjax) {
+            LOGGER.info("User Session has timed out - sending 408 SESSION_TIMEOUT response");
+            response.sendError(408, TIMEOUT_MESSAGE);
+        } else {
+            // non ajax request - handle as per normal
+            super.commence(request, response, authException);
+        }
+    }
+}

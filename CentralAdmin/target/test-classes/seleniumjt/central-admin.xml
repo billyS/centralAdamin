@@ -1,0 +1,20 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Selenium Development Tests" verbose="5">
+
+	<parameter name="browserType" value="chrome"/>
+	
+	<test name="CentralAdminTest">
+			<parameter name="title" value="Central Admin"/>	
+			<parameter name="flow" value="flow1"/>
+			<groups>
+				<run>
+				</run>
+			</groups>
+	   		<classes>
+	   			<class name="uk.co.F1x2Games.selenium.main.CentralAdminTest" >
+	   			</class>
+	   		</classes>
+		</test>
+	
+</suite>

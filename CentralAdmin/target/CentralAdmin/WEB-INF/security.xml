@@ -1,0 +1,85 @@
+<beans:beans xmlns="http://www.springframework.org/schema/security"
+	xmlns:beans="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:security="http://www.springframework.org/schema/security"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+	http://www.springframework.org/schema/security
+	http://www.springframework.org/schema/security/spring-security-4.1.xsd">
+	
+	<http pattern="/resources/**" security="none"/>
+
+    <!-- enable use-expressions -->
+    <security:http auto-config="false" use-expressions="true" >
+		<headers><cache-control/></headers>
+		
+		<security:intercept-url pattern="/resources**" access="permitAll" />
+		<security:intercept-url pattern="/login**" access="permitAll" />
+		<security:intercept-url pattern="/users**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+		<security:intercept-url pattern="/clients**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+		<security:intercept-url pattern="/servers**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')" />
+		<security:intercept-url pattern="/**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+		<security:intercept-url pattern="/logs**" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
+		
+		<custom-filter ref="ajaxSessionManagementFilter" before="SESSION_MANAGEMENT_FILTER" />
+		
+		<!--Session control: 
+			Redirects to the login page.
+			Protects against session fixation.
+			Allows concurrent sessions to allow a user to login with computer and phone for example
+			Also handles ajax request session time out, will ask the user to login again-->
+			
+		<session-management  invalid-session-url="/login" session-fixation-protection="newSession">
+   			<concurrency-control expired-url="/login" max-sessions="2" error-if-maximum-exceeded="true" />
+		</session-management>
+		
+		<!-- access denied page -->
+		<access-denied-handler error-page="/403" />
+		
+		<security:form-login 
+		    login-page="/login" 
+		    default-target-url="/" 
+		    always-use-default-target="true"
+			authentication-failure-url="/login?error" 
+			username-parameter="username"
+			password-parameter="password" 
+			login-processing-url="/auth/login_check" />
+			
+		<security:logout 
+			invalidate-session="true"
+			logout-success-url="/login?logout"  
+			delete-cookies="JSESSIONID"/>
+		<!-- enable csrf protection -->
+		<csrf/>
+	</security:http>
+	
+	 <!-- handle situation where ajax request is made when session has timed out -->
+    <beans:bean id="ajaxSessionManagementFilter" class="uk.co.F1x2Games.security.AjaxFilter"/>
+ 
+	
+	<beans:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+	
+	<beans:bean id="customUserDetailsService" class="uk.co.F1x2Games.service.CustomUserDetailsService">
+		<beans:property name="usersByUsernameQuery" value="select * from USERS where USER_NAME=?"/>
+		<beans:property name="authoritiesByUsernameQuery" value="select USER_NAME, ROLE from USER_ROLES where USER_NAME=?" />
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
+
+	<beans:bean id="userDetailsDao" class="uk.co.F1x2Games.users.dao.UserDetailsDaoImpl" >
+		<beans:property name="dataSource" ref="dataSource" />
+	</beans:bean>
+	
+	<beans:bean id="authenticationProvider" class="uk.co.F1x2Games.handeler.LimitLoginAuthenticationProvider">
+		<beans:property name="userDetailsService" ref="customUserDetailsService" />
+		<beans:property name="userDetailsDao" ref="userDetailsDao" />
+		<beans:property name="passwordEncoder" ref="encoder"/>
+	</beans:bean>
+
+	<security:authentication-manager>
+		 <security:authentication-provider ref="authenticationProvider"></security:authentication-provider>
+	</security:authentication-manager>
+	
+	<beans:bean id="encoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+		<beans:constructor-arg name="strength" value="10" />
+  	</beans:bean>
+</beans:beans>

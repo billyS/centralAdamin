@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" total="2" passed="2">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Command line suite" duration-ms="23" started-at="2017-09-27T15:31:20Z" finished-at="2017-09-27T15:31:20Z">
+    <groups>
+    </groups>
+    <test name="Command line test" duration-ms="23" started-at="2017-09-27T15:31:20Z" finished-at="2017-09-27T15:31:20Z">
+      <class name="uk.co.F1x2Games.selenium.main.CentralAdminTest">
+        <test-method status="PASS" signature="before()[pri:0, instance:uk.co.F1x2Games.selenium.main.CentralAdminTest@157632c9]" name="before" is-config="true" duration-ms="8" started-at="2017-09-27T16:31:20Z" finished-at="2017-09-27T16:31:20Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- before -->
+        <test-method status="PASS" signature="startSession(org.testng.ITestContext)[pri:0, instance:uk.co.F1x2Games.selenium.main.CentralAdminTest@157632c9]" name="startSession" is-config="true" duration-ms="1" started-at="2017-09-27T16:31:20Z" finished-at="2017-09-27T16:31:20Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@65d6b83b]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- startSession -->
+        <test-method status="PASS" signature="testAdminSkills()[pri:0, instance:uk.co.F1x2Games.selenium.main.CentralAdminTest@157632c9]" name="testAdminSkills" duration-ms="1" started-at="2017-09-27T16:31:20Z" finished-at="2017-09-27T16:31:20Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testAdminSkills -->
+        <test-method status="PASS" signature="testUserSkills()[pri:0, instance:uk.co.F1x2Games.selenium.main.CentralAdminTest@157632c9]" name="testUserSkills" duration-ms="1" started-at="2017-09-27T16:31:20Z" finished-at="2017-09-27T16:31:20Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- testUserSkills -->
+        <test-method status="PASS" signature="afterClass(org.testng.ITestContext)[pri:0, instance:uk.co.F1x2Games.selenium.main.CentralAdminTest@157632c9]" name="afterClass" is-config="true" duration-ms="0" started-at="2017-09-27T16:31:20Z" finished-at="2017-09-27T16:31:20Z">
+          <params>
+            <param index="0">
+              <value>
+                <![CDATA[org.testng.TestRunner@65d6b83b]]>
+              </value>
+            </param>
+          </params>
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- afterClass -->
+      </class> <!-- uk.co.F1x2Games.selenium.main.CentralAdminTest -->
+    </test> <!-- Command line test -->
+  </suite> <!-- Command line suite -->
+</testng-results>
